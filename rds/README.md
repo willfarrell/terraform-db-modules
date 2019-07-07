@@ -14,17 +14,17 @@ Creates a RDS instance.
 ```hcl-terraform
 module "rds" {
   source                   = "git@github.com:tesera/terraform-modules//postgres"
-  vpc_id                   = "${module.vpc.id}"
+  vpc_id                   = module.vpc.id
   name                     = "rds-instance-name"
   db_name                  = "dbname"
   username                 = "dbuser"
   password                 = "SomePassword123"
-  private_subnet_ids       = ["${module.vpc.private_subnet_ids}"]
+  private_subnet_ids       = module.vpc.private_subnet_ids
   ssh_identity_file        = "key"
-  bastion_ip               = "${module.bastion.public_ip}"
+  bastion_ip               = module.bastion.public_ip
   init_scripts_folder      = "scripts"
   ssh_username             = "ec2-user"
-  security_group_ids       = ["${module.bastion.security_group_id}"]
+  security_group_ids       = module.bastion.security_group_id
 }
 ```
 

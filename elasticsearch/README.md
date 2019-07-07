@@ -37,9 +37,9 @@ module "elasticsearch" {
   private_subnet_ids  = ["subnet-00000000000000000", "subnet-00000000000000001"]
   vpc_id              = "vpc-00000000"
   indices_config_file = "mappings.json"
-  security_group_ids  = ["${module.bastion.security_group_id}","sg-00000000000000000"]
+  security_group_ids  = [module.bastion.security_group_id,"sg-00000000000000000"]
   ssh_identity_file   = "key.pem"
-  bastion_ip          = "${module.bastion.public_ip}"
+  bastion_ip          = module.bastion.public_ip
 }
 ```
 

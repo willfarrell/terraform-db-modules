@@ -16,7 +16,7 @@ module "elasticache" {
   instance_type      = "cache.m3.medium"
   replica_count      = 1
   multi_az           = "true"
-  security_group_ids = ["${module.bastion.security_group_id}"]
+  security_group_ids = [module.bastion.security_group_id]
 }
 ```
 
@@ -30,7 +30,7 @@ module "elasticache" {
   vpc_id             = "vpc-00000000"
   replica_count      = 1
   multi_az           = "true"
-  security_group_ids = ["${module.bastion.security_group_id}"]
+  security_group_ids = [module.bastion.security_group_id]
   num_node_groups    = 2
 }
 ```
