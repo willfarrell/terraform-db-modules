@@ -160,3 +160,7 @@ variable "iam_database_authentication_enabled" {
   default = "false"
 }
 
+variable "cloudwatch_logs_exports" {
+  type = list(string)
+  default = [ "audit", "error", "general", "slowquery" ]
+}
