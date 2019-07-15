@@ -30,6 +30,7 @@ resource "aws_db_instance" "main" {
 
   # Integrity
   enabled_cloudwatch_logs_exports = var.cloudwatch_logs_exports
+  performance_insights_enabled    = var.performance_insights
 
   # TODO add in `monitoring_interval` & `monitoring_role_arn`
   final_snapshot_identifier = "${local.identifier}-final"
@@ -77,6 +78,7 @@ resource "aws_db_instance" "replica" {
 
   # Integrity
   enabled_cloudwatch_logs_exports = var.cloudwatch_logs_exports
+  performance_insights_enabled    = var.performance_insights
 
   # TODO add in `monitoring_interval` & `monitoring_role_arn`
   backup_retention_period = 0

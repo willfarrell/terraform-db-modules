@@ -9,7 +9,7 @@ resource "aws_rds_cluster" "main" {
   engine                              = var.engine
   engine_version                      = var.engine_version
   engine_mode                         = var.engine_mode
-  storage_encrypted                   = "true"
+  storage_encrypted                   = true
   db_subnet_group_name                = aws_db_subnet_group.main.name
   vpc_security_group_ids              = [
     aws_security_group.main.id]
@@ -19,6 +19,7 @@ resource "aws_rds_cluster" "main" {
   apply_immediately                   = var.apply_immediately
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
   enabled_cloudwatch_logs_exports     = var.cloudwatch_logs_exports
+  performance_insights_enabled        = var.performance_insights
 
   tags = merge(
   local.tags,
@@ -40,6 +41,7 @@ resource "aws_rds_cluster_instance" "main" {
   db_parameter_group_name         = local.parameter_group_name
   apply_immediately               = var.apply_immediately
   enabled_cloudwatch_logs_exports = var.cloudwatch_logs_exports
+  performance_insights_enabled    = var.performance_insights
 
   tags = merge(
   local.tags,

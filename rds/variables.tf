@@ -164,3 +164,8 @@ variable "cloudwatch_logs_exports" {
   type = list(string)
   default = [ "audit", "error", "general", "slowquery" ]
 }
+
+variable "performance_insights" {
+  type = bool
+  default = true
+}

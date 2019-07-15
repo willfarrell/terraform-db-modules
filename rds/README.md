@@ -159,7 +159,7 @@ All scripts are going to be executed in a single transaction against the databas
 - **skip_final_snapshot:**  determines whether a final DB snapshot is created before the DB cluster is deleted. If true is specified, no DB snapshot is created. If false is specified, a DB snapshot is created before the DB cluster is deleted, using the value from final_snapshot_identifier. [Default: false].
 - **node_count:** count of aurora instances to be created in the aurora cluster. Used only with type = cluster. [Default: `1`].
 - **cloudwatch_logs_exports:** logging features. Default: [`audit`, `error`, `general`, `slowquery`]
-
+- **performance_insights_enabled:** Enalbe performance insights. [Default: true]
 ## Output
 
 - **endpoint:** connection endpoint
