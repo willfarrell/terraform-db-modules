@@ -53,6 +53,7 @@ resource "aws_db_instance" "replica" {
   auto_minor_version_upgrade  = true
   allow_major_version_upgrade = false
   allocated_storage           = var.allocated_storage
+  max_allocated_storage       = max(max_allocated_storage, var.allocated_storage)
   identifier                  = "${local.name}-${var.engine}-${var.type}-replica-${count.index}"
   storage_type                = var.storage_type
   engine                      = var.engine

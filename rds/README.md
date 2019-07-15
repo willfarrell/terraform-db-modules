@@ -144,6 +144,7 @@ resource "aws_ssm_parameter" "db_username" {
 - **backup_window:** window of time when a backup can be triggered
 - **parameter_group_name:** name of the DB parameter group to associate - https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html. If we haven't created a custom group we should use the default group matching the engine version. [Default: `default.${engine}${engine_version}`]
 - **allocated_storage:** amount of allocated storage in GB
+- **max_allocated_storage:** amount of allocated storage to auto scale up to a max in GB
 - **backup_retention_period:** backup retention period
 - **multi_az:** if the RDS instance is multi AZ enabled [Default: `true`]
 - **replica_count:** number of read replicas to deploy
