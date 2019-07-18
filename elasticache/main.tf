@@ -20,10 +20,16 @@ resource "aws_elasticache_replication_group" "service" {
   at_rest_encryption_enabled    = "true"
   transit_encryption_enabled    = "true"
 
+  lifecycle {
+    ignore_changes = [
+      "engine_version"
+    ]
+  }
+
   tags = merge(
     local.tags,
     {
-      "Name" = "${local.name}-${var.engine}-cluster"
+      Name = "${local.name}-${var.engine}-cluster"
     }
   )
 }
@@ -49,10 +55,16 @@ resource "aws_elasticache_replication_group" "cluster" {
     num_node_groups         = var.node_count
   }
 
+  lifecycle {
+    ignore_changes = [
+      "engine_version"
+    ]
+  }
+
   tags = merge(
     local.tags,
     {
-      "Name" = "${local.name}-${var.engine}-cluster"
+      Name = "${local.name}-${var.engine}-cluster"
     }
   )
 }
