@@ -56,17 +56,17 @@ variable "parameter_group_name" {
 }
 
 variable "allocated_storage" {
-  type = number
+  type    = number
   default = 20
 }
 
 variable "max_allocated_storage" {
-  type = number
+  type    = number
   default = 0
 }
 
 variable "backup_retention_period" {
-  type = number
+  type    = number
   default = 7
 }
 
@@ -75,12 +75,12 @@ variable "multi_az" {
 }
 
 variable "replica_count" {
-  type = number
+  type    = number
   default = 0
 }
 
 variable "publicly_accessible" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -90,17 +90,17 @@ variable "security_group_ids" {
 }
 
 variable "cpu_alarm_threshold" {
-  type = number
+  type    = number
   default = 80
 }
 
 variable "cpu_alarm_evaluation_periods" {
-  type = number
+  type    = number
   default = 3
 }
 
 variable "swap_alarm_threshold" {
-  type = number
+  type    = number
   default = 0
 }
 
@@ -109,12 +109,12 @@ variable "free_space_alarm_threshold" {
 }
 
 variable "read_latency_alarm_threshold" {
-  type = number
+  type    = number
   default = 0.2 # 200ms
 }
 
 variable "write_latency_alarm_threshold" {
-  type = number
+  type    = number
   default = 0.2 # 200ms
 }
 
@@ -143,12 +143,12 @@ variable "apply_immediately" {
 }
 
 variable "skip_final_snapshot" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "node_count" {
-  type = number
+  type    = number
   default = 2
 }
 
@@ -161,11 +161,11 @@ variable "iam_database_authentication_enabled" {
 }
 
 variable "cloudwatch_logs_exports" {
-  type = list(string)
-  default = [ "audit", "error", "general", "slowquery" ]
+  type    = list(string)
+  default = ["audit", "error", "general", "slowquery"]
 }
 
 variable "performance_insights" {
-  type = bool
+  type    = bool
   default = true
 }

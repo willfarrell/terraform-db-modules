@@ -36,7 +36,7 @@ resource "aws_elasticsearch_domain" "main" {
   }
 
   log_publishing_options = var.log_publishing_options
-  cognito_options = var.cognito_options
+  cognito_options        = var.cognito_options
 
   access_policies = <<CONFIG
   {

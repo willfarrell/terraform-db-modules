@@ -39,11 +39,11 @@ resource "aws_db_instance" "main" {
 
   # Availability
   multi_az = var.multi_az
-  tags     = merge(
-  local.tags,
-  {
-    Name = "${local.identifier} Master/Slave"
-  }
+  tags = merge(
+    local.tags,
+    {
+      Name = "${local.identifier} Master/Slave"
+    }
   )
 }
 
@@ -65,11 +65,11 @@ resource "aws_db_instance" "replica" {
   apply_immediately           = true
 
   # Confidentiality
-  username               = var.username
-  publicly_accessible    = var.publicly_accessible
-  db_subnet_group_name   = aws_db_subnet_group.main.name
+  username             = var.username
+  publicly_accessible  = var.publicly_accessible
+  db_subnet_group_name = aws_db_subnet_group.main.name
   vpc_security_group_ids = [
-    aws_security_group.main.id]
+  aws_security_group.main.id]
 
   # TODO test out `iam_database_authentication_enabled` for db user access
   # TODO research and apply `kms_key_id`
@@ -85,11 +85,11 @@ resource "aws_db_instance" "replica" {
 
   # Availability
   multi_az = false
-  tags     = merge(
-  local.tags,
-  {
-    Name = "${local.identifier} Replica"
-  }
+  tags = merge(
+    local.tags,
+    {
+      Name = "${local.identifier} Replica"
+    }
   )
 }
 
