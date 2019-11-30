@@ -101,11 +101,11 @@ variable "cpu_alarm_evaluation_periods" {
 
 variable "swap_alarm_threshold" {
   type    = number
-  default = 0
+  default = 128000000 # MB
 }
 
 variable "free_space_alarm_threshold" {
-  default = 1073741824 # 1G
+  default = 1073741824 # 1GB
 }
 
 variable "read_latency_alarm_threshold" {
@@ -119,7 +119,7 @@ variable "write_latency_alarm_threshold" {
 }
 
 variable "ssh_identity_file" {
-  default = ""
+  default = "id_rsa"
 }
 
 variable "ssh_username" {
@@ -139,7 +139,7 @@ variable "type" {
 }
 
 variable "apply_immediately" {
-  default = "false"
+  default = false
 }
 
 variable "skip_final_snapshot" {
@@ -157,12 +157,12 @@ variable "cluster_engine" {
 }
 
 variable "iam_database_authentication_enabled" {
-  default = "false"
+  default = true
 }
 
 variable "cloudwatch_logs_exports" {
   type    = list(string)
-  default = ["audit", "error", "general", "slowquery"]
+  default = []//["audit", "error", "general", "slowquery"] // for cluster only
 }
 
 variable "performance_insights" {

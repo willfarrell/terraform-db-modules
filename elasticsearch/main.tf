@@ -22,6 +22,7 @@ resource "aws_elasticsearch_domain" "main" {
 
   encrypt_at_rest {
     enabled = "true"
+    #kms_key_id = var.kms_key_id
   }
 
   snapshot_options {
@@ -35,10 +36,13 @@ resource "aws_elasticsearch_domain" "main" {
     iops        = var.ebs_iops
   }
 
-  log_publishing_options = var.log_publishing_options
-  cognito_options        = var.cognito_options
+  log_publishing_options = {
+    cloudwatch_log_group_arn = aws_cloudwatch_log_group.default.arn
+    log_type                 = "SEARCH_SLOW_LOGS" # INDEX_SLOW_LOGS, SEARCH_SLOW_LOGS, ES_APPLICATION_LOGS
+  }
+  cognito_options = var.cognito_options
 
-  access_policies = <<CONFIG
+  access_policies = <<POLICY
   {
       "Version": "2012-10-17",
       "Statement": [
@@ -50,14 +54,17 @@ resource "aws_elasticsearch_domain" "main" {
           }
       ]
   }
-CONFIG
+POLICY
 
 
   tags = merge(
     local.tags,
     {
-      "Name" = local.name
+      Name = local.name
     }
   )
 }
 
+resource "aws_cloudwatch_log_group" "default" {
+  name = "elasticsearch/${local.name}"
+}

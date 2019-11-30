@@ -7,7 +7,7 @@ output "port" {
 }
 
 output "replica_endpoints" {
-  value = aws_rds_cluster.main.*.reader_endpoint
+  value = concat(aws_rds_cluster.main.*.reader_endpoint,aws_db_instance.replica.*.address)
 }
 
 output "username" {
@@ -30,6 +30,10 @@ output "database" {
     aws_rds_cluster.main.*.database_name,
     aws_db_instance.main.*.name
   )[0]
+}
+
+output "resource_id" {
+  value = concat(aws_rds_cluster.main.*.cluster_resource_id,aws_db_instance.main.*.resource_id)[0]
 }
 
 output "security_group_id" {

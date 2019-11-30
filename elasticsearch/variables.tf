@@ -100,3 +100,8 @@ variable "bastion_ip" {
   default = ""
 }
 
+
+variable "kms_key_id" {
+  type    = string
+  default = "aws/ec"
+}

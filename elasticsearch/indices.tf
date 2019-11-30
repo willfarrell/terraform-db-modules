@@ -14,7 +14,7 @@ data "template_file" "indices_script" {
 resource "local_file" "indices_script" {
   count      = var.bootstrap_file == "" ? 0 : 1
   content    = data.template_file.indices_script[0].rendered
-  filename   = "${path.cwd}/create_indices.sh"
+  filename   = "${path.cwd}/${var.bootstrap_file}/create_indices.sh"
   depends_on = [aws_elasticsearch_domain.main]
 }
 
@@ -24,7 +24,7 @@ data "local_file" "indices_config" {
 }
 
 data "local_file" "init_script" {
-  filename = "${path.module}/indices.js"
+  filename = "${path.module}/${var.bootstrap_file}/indices.js"
 }
 
 resource "null_resource" "init" {
@@ -37,7 +37,7 @@ resource "null_resource" "init" {
   }
 
   provisioner "local-exec" {
-    command = "docker run --rm -v ${path.cwd}:/data -v ${path.module}/indices.js:/data/indices.js -e USE_BASTION=${var.bastion_ip == "" ? "false" : "true"} tesera/node10-ssh:latest /bin/bash /data/create_indices.sh"
+    command = "docker run --rm -v ${path.cwd}:/data -e USE_BASTION=${var.bastion_ip == "" ? "false" : "true"} tesera/node10-ssh:latest /bin/bash /data/${var.bootstrap_file}/create_indices.sh"
   }
 }
 

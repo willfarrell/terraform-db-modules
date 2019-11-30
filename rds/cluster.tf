@@ -51,3 +51,20 @@ resource "aws_rds_cluster_instance" "main" {
   )
 }
 
+resource "aws_rds_cluster_parameter_group" "default" {
+  count = var.type == "cluster" ? 1 : 0
+  name = "${local.engine_family}-secure"
+  family = local.engine_family
+  description = "RDS default cluster parameter group"
+
+  parameter {
+    name = "rds.force_ssl"
+    value = "1"
+  }
+
+  // TODO If needed
+  /*parameter {
+    name  = "ssl"
+    value = "1"
+  }*/
+}

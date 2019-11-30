@@ -64,7 +64,7 @@ https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.ht
 Knowledge centre video for setting this up with mysql - https://aws.amazon.com/premiumsupport/knowledge-center/users-connect-rds-iam/
 
 After setting iam_database_authentication_enabled = true, the steps for connecting with IAM credentials are:
-
+ - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/RDS/Signer.html
  - create IAM Policy for IAM Database Access - https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.IAMPolicy.html :
  ```json
  {
@@ -85,8 +85,8 @@ After setting iam_database_authentication_enabled = true, the steps for connecti
 
  - create Database Account Using IAM Authentication:
  ``` PL/pgSQL
-  CREATE USER db_userx WITH LOGIN; 
-  GRANT rds_iam TO db_userx;
+  CREATE USER iam_user WITH LOGIN; 
+  GRANT rds_iam TO iam_user;
 ```
 
  - connect to RDS from the Command Line: AWS CLI and psql Client - https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.Connecting.AWSCLI.PostgreSQL.html
@@ -106,25 +106,47 @@ The workaround is either assume the role as an IAM user, or attach the rdb-conne
 ### Output configuration info to SSM Param store for use from Serverless, Lambda or other components
 Force use of SSL needs to be set through DB Parameters groups. Example of creating such param group:
 ```hcl-terraform
-resource "aws_ssm_parameter" "db_endpoint" {
-  name        = "/config/database/endpoint"
+resource "aws_ssm_parameter" "postgres_endpoint" {
+  name        = "/database/postgres/endpoint"
   description = "Endpoint to connect to the database"
-  type        = "SecureString"
-  value       = "${module.db.endpoint}"
+  type        = "String"
+  value       = module.postgres.endpoint
 }
 
-resource "aws_ssm_parameter" "db_port" {
-  name        = "/config/database/port"
+resource "aws_ssm_parameter" "postgres_endpoints" {
+  count       = module.postgres.replica_endpoints != [] ? 1 : 0
+  name        = "/database/postgres/endpoints"
+  description = "Endpoints to connect to read the database"
+  type        = "StringList"
+  value       = join(",", module.postgres.replica_endpoints)
+}
+
+resource "aws_ssm_parameter" "postgres_port" {
+  name        = "/database/postgres/port"
   description = "Port to connect to the database"
-  type        = "SecureString"
-  value       = "${module.db.port}"
+  type        = "String"
+  value       = module.postgres.port
 }
 
-resource "aws_ssm_parameter" "db_username" {
-  name        = "/config/database/username"
+resource "aws_ssm_parameter" "postgres_username" {
+  name        = "/database/postgres/username"
   description = "Username to connect to the database"
   type        = "SecureString"
-  value       = "${module.db.username}"
+  value       = module.postgres.username
+}
+
+resource "aws_ssm_parameter" "postgres_password" {
+  name        = "/database/postgres/password"
+  description = "Username to connect to the database"
+  type        = "SecureString"
+  value       = module.postgres.password
+}
+
+resource "aws_ssm_parameter" "postgres_database" {
+  name        = "/database/postgres/database"
+  description = "Database to connect to"
+  type        = "String"
+  value       = module.postgres.database
 }
 ```
 
@@ -167,6 +189,7 @@ All scripts are going to be executed in a single transaction against the databas
 - **password:** password of the master DB user
 - **username:** username of the master DB user
 - **security_group_id:** the security group that was created and associated with this instance
+- **resource_id:** can be used in `rds-db` arns for iam access
 - **billing_suggestion:** comments to improve billing cost
 
 
