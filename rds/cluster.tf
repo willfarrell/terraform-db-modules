@@ -42,6 +42,8 @@ resource "aws_rds_cluster_instance" "main" {
   apply_immediately       = var.apply_immediately
   #enabled_cloudwatch_logs_exports = var.cloudwatch_logs_exports
   performance_insights_enabled = var.performance_insights
+  monitoring_role_arn = var.monitoring_interval > 0 ? aws_iam_role.monitoring.arn : null
+  monitoring_interval = var.monitoring_interval
 
   tags = merge(
     local.tags,
@@ -60,6 +62,26 @@ resource "aws_rds_cluster_parameter_group" "default" {
   parameter {
     name = "rds.force_ssl"
     value = "1"
+  }
+
+  parameter {
+    name = "max_connections"
+    value = var.max_connections
+  }
+
+  parameter {
+    name = "log_min_duration_statement"
+    value = var.log_min_duration_statement
+  }
+
+  parameter {
+    name = "auto_explain.log_nested_statements"
+    value = "1"
+  }
+
+  parameter {
+    name = "log_min_messages"
+    value = "notice"
   }
 
   // TODO If needed

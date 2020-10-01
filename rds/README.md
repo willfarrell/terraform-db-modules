@@ -65,6 +65,7 @@ Knowledge centre video for setting this up with mysql - https://aws.amazon.com/p
 
 After setting iam_database_authentication_enabled = true, the steps for connecting with IAM credentials are:
  - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/RDS/Signer.html
+ - https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.DBAccounts.html
  - create IAM Policy for IAM Database Access - https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.IAMPolicy.html :
  ```json
  {

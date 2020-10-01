@@ -1,4 +1,9 @@
+# Deprecate
 output "endpoint" {
+  value = local.endpoint
+}
+
+output "hostname" {
   value = local.endpoint
 }
 
@@ -6,7 +11,7 @@ output "port" {
   value = local.port
 }
 
-output "replica_endpoints" {
+output "replicas" {
   value = concat(aws_rds_cluster.main.*.reader_endpoint,aws_db_instance.replica.*.address)
 }
 

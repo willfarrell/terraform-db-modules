@@ -101,7 +101,7 @@ variable "cpu_alarm_evaluation_periods" {
 
 variable "swap_alarm_threshold" {
   type    = number
-  default = 128000000 # MB
+  default = 256000000 # MB
 }
 
 variable "free_space_alarm_threshold" {
@@ -124,10 +124,6 @@ variable "ssh_identity_file" {
 
 variable "ssh_username" {
   default = "ec2-user"
-}
-
-variable "bastion_ip" {
-  default = ""
 }
 
 variable "bootstrap_folder" {
@@ -160,6 +156,14 @@ variable "iam_database_authentication_enabled" {
   default = true
 }
 
+variable "max_connections" {
+  default = "LEAST({DBInstanceClassMemory/9531392},5000)"
+}
+
+variable "log_min_duration_statement" {
+  default = "5000"
+}
+
 variable "cloudwatch_logs_exports" {
   type    = list(string)
   default = []//["audit", "error", "general", "slowquery"] // for cluster only
@@ -168,4 +172,9 @@ variable "cloudwatch_logs_exports" {
 variable "performance_insights" {
   type    = bool
   default = true
+}
+
+variable "monitoring_interval" {
+  type = number
+  default = 60     // 0, 1, 5, 10, 15, 30, 60
 }
