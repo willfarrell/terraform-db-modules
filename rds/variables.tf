@@ -118,12 +118,19 @@ variable "write_latency_alarm_threshold" {
   default = 0.2 # 200ms
 }
 
+variable "aws_profile" {
+  default = "default"
+}
 variable "ssh_identity_file" {
   default = "id_rsa"
 }
 
 variable "ssh_username" {
   default = "ec2-user"
+}
+
+variable "bastion_name" {
+  default = "bastion"
 }
 
 variable "bootstrap_folder" {

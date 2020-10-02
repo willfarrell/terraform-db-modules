@@ -21,7 +21,7 @@ module "rds" {
   password                 = "SomePassword123"
   private_subnet_ids       = module.vpc.private_subnet_ids
   ssh_identity_file        = "key"
-  bastion_ip               = module.bastion.public_ip
+  bastion_name             = "bastion-app"
   init_scripts_folder      = "scripts"
   ssh_username             = "ec2-user"
   security_group_ids       = module.bastion.security_group_id
@@ -173,7 +173,7 @@ resource "aws_ssm_parameter" "postgres_database" {
 - **replica_count:** number of read replicas to deploy
 - **security_group_ids:** list of security group ids which are going to be granted access to the DB. [Default: []]
 - **ssh_identity_file:** SSH key filename for connecting to the bastion host
-- **bastion_ip:** IP of the bastion host. If it is not provided the psql command will run directly against the RDS host without SSH tunneling 
+- **bastion_name:** name of the bastion host. If it is not provided the psql command will run directly against the RDS host without SSH tunneling 
 - **init_scripts_folder:** sub folder containing the sql init scripts to be executed. The script files must have .sql extenstion. And all of the scripts must end with ";".
 All scripts are going to be executed in a single transaction against the database specified in db_name. 
 - **ssh_username:** username for connecting to the bastion host

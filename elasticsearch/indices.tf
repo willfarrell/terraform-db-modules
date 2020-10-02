@@ -5,7 +5,7 @@ data "template_file" "indices_script" {
   vars = {
     SSH_IDENTITY_FILE      = var.ssh_identity_file
     SSH_USERNAME           = var.ssh_username
-    BASTION_IP             = var.bastion_ip
+    BASTION_NAME             = var.bastion_name
     ELASTICSEARCH_ENDPOINT = aws_elasticsearch_domain.main.endpoint
     INDICES_CONFIG_FILE    = var.bootstrap_file
   }
