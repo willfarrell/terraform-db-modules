@@ -13,6 +13,7 @@ resource "aws_db_instance" "main" {
   parameter_group_name = local.parameter_group_name
   apply_immediately = var.apply_immediately
   iam_database_authentication_enabled = var.iam_database_authentication_enabled
+  deletion_protection = true
 
   # Confidentiality
   username = var.username
@@ -62,7 +63,7 @@ resource "aws_db_instance" "replica" {
   storage_type = var.storage_type
   engine = var.engine
   engine_version = var.engine_version
-  instance_class = var.instance_type
+  instance_class = var.replica_instance_type != "" ? var.replica_instance_type : var.instance_type
   name = local.db_name
   parameter_group_name = local.parameter_group_name
   apply_immediately = true

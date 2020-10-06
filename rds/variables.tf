@@ -47,6 +47,10 @@ variable "instance_type" {
   default = "db.t3.micro"
 }
 
+variable "replica_instance_type" {
+  default = ""  // default to var.instance_type
+}
+
 variable "backup_window" {
   default = "06:00-07:00"
 }

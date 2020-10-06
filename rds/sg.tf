@@ -19,6 +19,7 @@ resource "aws_security_group" "main" {
   )
 }
 
+// Allow applications to connect
 resource "aws_security_group_rule" "rds_access" {
   count                    = length(var.security_group_ids)
   security_group_id        = aws_security_group.main.id
@@ -27,5 +28,15 @@ resource "aws_security_group_rule" "rds_access" {
   to_port                  = "5432"
   protocol                 = "tcp"
   source_security_group_id = var.security_group_ids[count.index]
+}
+
+// Allow RDS Proxy to connect as well
+resource "aws_security_group_rule" "rds_self_access" {
+  security_group_id        = aws_security_group.main.id
+  type                     = "ingress"
+  from_port                = "5432"
+  to_port                  = "5432"
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.main.id
 }
 
