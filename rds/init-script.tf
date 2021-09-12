@@ -9,7 +9,8 @@ data "template_file" "postgres" {
     SSH_USERNAME        = var.ssh_username
     BASTION_NAME        = var.bastion_name
     DB_HOST             = local.endpoint
-    DB_PORT             = local.port
+    DB_FROM_PORT             = local.port
+    DB_TO_PORT             = local.port
     DATABASE_NAME       = local.db_name
     INIT_SCRIPTS_FOLDER = local.bootstrap_folder
   }

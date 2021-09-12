@@ -1,10 +1,5 @@
-# Deprecate
-output "endpoint" {
-  value = local.endpoint
-}
-
 output "hostname" {
-  value = local.endpoint
+  value = concat(aws_rds_cluster.main.*.endpoint, aws_db_instance.main.*.address)[0]
 }
 
 output "port" {
@@ -12,7 +7,7 @@ output "port" {
 }
 
 output "replicas" {
-  value = concat(aws_rds_cluster.main.*.reader_endpoint,aws_db_instance.replica.*.address)
+  value = concat(aws_rds_cluster.main.*.reader_endpoint, aws_db_instance.replica.*.address)
 }
 
 output "username" {

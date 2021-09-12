@@ -64,29 +64,12 @@ resource "aws_rds_cluster_parameter_group" "default" {
     value = "1"
   }
 
-  parameter {
-    name = "max_connections"
-    value = var.max_connections
+  dynamic "parameter" {
+    for_each = keys(var.config)
+    content {
+      apply_method = "pending-reboot"
+      name = parameter.value
+      value = var.config[parameter.value]
+    }
   }
-
-  parameter {
-    name = "log_min_duration_statement"
-    value = var.log_min_duration_statement
-  }
-
-  parameter {
-    name = "auto_explain.log_nested_statements"
-    value = "1"
-  }
-
-  parameter {
-    name = "log_min_messages"
-    value = "notice"
-  }
-
-  // TODO If needed
-  /*parameter {
-    name  = "ssl"
-    value = "1"
-  }*/
 }

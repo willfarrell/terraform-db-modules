@@ -24,8 +24,8 @@ resource "aws_security_group_rule" "rds_access" {
   count                    = length(var.security_group_ids)
   security_group_id        = aws_security_group.main.id
   type                     = "ingress"
-  from_port                = "5432"
-  to_port                  = "5432"
+  from_port                = var.port
+  to_port                  = var.port
   protocol                 = "tcp"
   source_security_group_id = var.security_group_ids[count.index]
 }
@@ -34,8 +34,8 @@ resource "aws_security_group_rule" "rds_access" {
 resource "aws_security_group_rule" "rds_self_access" {
   security_group_id        = aws_security_group.main.id
   type                     = "ingress"
-  from_port                = "5432"
-  to_port                  = "5432"
+  from_port                = var.port
+  to_port                  = var.port
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.main.id
 }

@@ -1,5 +1,6 @@
 resource "aws_sns_topic" "rds-sns-topic" {
   name = "${local.identifier}-rds-topic"
+  kms_master_key_id = "alias/aws/sns"
 }
 
 resource "aws_cloudwatch_metric_alarm" "rds-cpu-alarm" {

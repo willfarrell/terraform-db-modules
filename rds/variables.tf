@@ -35,6 +35,10 @@ variable "engine" {
   default = "postgres"
 }
 
+variable "port" {
+  default = 5432
+}
+
 variable "engine_version" {
   default = "10"
 }
@@ -167,14 +171,6 @@ variable "iam_database_authentication_enabled" {
   default = true
 }
 
-variable "max_connections" {
-  default = "LEAST({DBInstanceClassMemory/9531392},5000)"
-}
-
-variable "log_min_duration_statement" {
-  default = "5000"
-}
-
 variable "cloudwatch_logs_exports" {
   type    = list(string)
   default = []//["audit", "error", "general", "slowquery"] // for cluster only
@@ -188,4 +184,30 @@ variable "performance_insights" {
 variable "monitoring_interval" {
   type = number
   default = 60     // 0, 1, 5, 10, 15, 30, 60
+}
+
+variable "config" {
+  type = map(string)
+  default = {
+    log_min_messages = "notice"
+    "auto_explain.log_nested_statements" = "1"
+    log_min_duration_statement = "5000"
+    max_connections = "LEAST({DBInstanceClassMemory/9531392},5000)"
+  }
+}
+
+// DNS - only use when requiring unsecured connections
+variable "zone_id" {
+  type = string
+  default = ""
+}
+
+variable "dns_master" {
+  type = string
+  default = ""
+}
+
+variable "dns_replicas" {
+  type = string
+  default = ""
 }
