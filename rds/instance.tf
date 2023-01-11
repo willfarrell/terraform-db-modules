@@ -11,7 +11,7 @@ resource "aws_db_instance" "main" {
   engine_version = var.engine_version
   port = var.port
   instance_class = var.instance_type
-  name = local.db_name
+  db_name = local.db_name
   parameter_group_name = local.parameter_group_name
   apply_immediately = var.apply_immediately
   deletion_protection = true
@@ -79,7 +79,7 @@ resource "aws_db_instance" "replica" {
   engine = var.engine
   engine_version = var.engine_version
   instance_class = var.replica_instance_type != "" ? var.replica_instance_type : var.instance_type
-  name = local.db_name
+  db_name = local.db_name
   parameter_group_name = local.parameter_group_name
   apply_immediately = true
   deletion_protection = false
