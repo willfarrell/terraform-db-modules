@@ -1,8 +1,6 @@
-data "template_file" "postgres" {
-  count    = var.ssh_username == "" ? 0 : 1
-  template = file("${path.module}/postgres_sql_template.sh")
-
-  vars = {
+resource "local_file" "postgres" {
+  count      = var.ssh_username == "" ? 0 : 1
+  content    = templatefile("${path.module}/postgres_sql_template.sh", {
     AWS_PROFILE = var.aws_profile
     AWS_REGION = local.region
     SSH_IDENTITY_FILE   = var.ssh_identity_file
@@ -13,12 +11,7 @@ data "template_file" "postgres" {
     DB_TO_PORT             = local.port
     DATABASE_NAME       = local.db_name
     INIT_SCRIPTS_FOLDER = local.bootstrap_folder
-  }
-}
-
-resource "local_file" "postgres" {
-  count      = var.ssh_username == "" ? 0 : 1
-  content    = data.template_file.postgres[0].rendered
+  })
   filename   = "${path.cwd}/${local.bootstrap_folder}_sql.sh"
   depends_on = [aws_rds_cluster_instance.main, aws_db_instance.main]
 }
