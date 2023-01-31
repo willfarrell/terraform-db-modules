@@ -1,6 +1,21 @@
 resource "aws_sns_topic" "rds-sns-topic" {
-  name = "${local.identifier}-rds-topic"
-  kms_master_key_id = "alias/aws/sns"
+  name                                     = "${local.identifier}-rds-topic"
+  kms_master_key_id                        = "alias/aws/sns"
+  application_failure_feedback_role_arn    = aws_iam_role.rds-sns.arn
+  application_success_feedback_role_arn    = aws_iam_role.rds-sns.arn
+  application_success_feedback_sample_rate = 100
+  lambda_failure_feedback_role_arn         = aws_iam_role.rds-sns.arn
+  lambda_success_feedback_role_arn         = aws_iam_role.rds-sns.arn
+  lambda_success_feedback_sample_rate      = 100
+  http_failure_feedback_role_arn           = aws_iam_role.rds-sns.arn
+  http_success_feedback_role_arn           = aws_iam_role.rds-sns.arn
+  http_success_feedback_sample_rate        = 100
+  sqs_failure_feedback_role_arn            = aws_iam_role.rds-sns.arn
+  sqs_success_feedback_role_arn            = aws_iam_role.rds-sns.arn
+  sqs_success_feedback_sample_rate         = 100
+  firehose_failure_feedback_role_arn       = aws_iam_role.rds-sns.arn
+  firehose_success_feedback_role_arn       = aws_iam_role.rds-sns.arn
+  firehose_success_feedback_sample_rate    = 100
 }
 
 resource "aws_cloudwatch_metric_alarm" "rds-cpu-alarm" {
