@@ -108,3 +108,20 @@ resource "aws_cloudwatch_metric_alarm" "rds-write-latency" {
   alarm_actions       = [aws_sns_topic.rds-sns-topic.arn]
 }
 
+resource "aws_cloudwatch_metric_alarm" "rds-freeable-memory" {
+  alarm_name        = "${local.identifier} RDS freeable memory alarm"
+  alarm_description = "${local.identifier} freeable memory"
+  namespace         = "AWS/RDS"
+  metric_name       = "FreeableMemory"
+
+  dimensions = {
+    DBInstanceIdentifier = local.identifier
+  }
+
+  statistic           = "Average"
+  evaluation_periods  = 1
+  period              = 300
+  threshold           = var.freeable_memory_alarm_threshold
+  comparison_operator = "LessThanThreshold"
+  alarm_actions       = [aws_sns_topic.rds-sns-topic.arn]
+}
