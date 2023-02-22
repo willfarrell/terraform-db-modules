@@ -126,6 +126,11 @@ variable "write_latency_alarm_threshold" {
   default = 0.2 # 200ms
 }
 
+variable "freeable_memory_alarm_threshold" {
+  type    = number
+  default = 104857600 # 100MB
+}
+
 variable "aws_profile" {
   default = "default"
 }
