@@ -56,7 +56,7 @@ resource "aws_db_instance" "main" {
 resource "aws_cloudwatch_log_group" "instance" {
   count = var.type == "cluster" ? 0 : length(var.cloudwatch_logs_exports)
   name = "/aws/rds/instance/${local.identifier}/${element(var.cloudwatch_logs_exports, count.index)}"
-  retention_in_days = 30
+  retention_in_days = terraform.workspace == "production" ? 365 : 7
 
   tags = merge(
   local.tags,

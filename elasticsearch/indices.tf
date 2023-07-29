@@ -1,19 +1,13 @@
-data "template_file" "indices_script" {
-  count    = var.bootstrap_file == "" ? 0 : 1
-  template = file("${path.module}/create_indices_template.sh")
 
-  vars = {
+resource "local_file" "indices_script" {
+  count      = var.bootstrap_file == "" ? 0 : 1
+  content    =templatefile("${path.module}/create_indices_template.sh", {
     SSH_IDENTITY_FILE      = var.ssh_identity_file
     SSH_USERNAME           = var.ssh_username
     BASTION_NAME             = var.bastion_name
     ELASTICSEARCH_ENDPOINT = aws_elasticsearch_domain.main.endpoint
     INDICES_CONFIG_FILE    = var.bootstrap_file
-  }
-}
-
-resource "local_file" "indices_script" {
-  count      = var.bootstrap_file == "" ? 0 : 1
-  content    = data.template_file.indices_script[0].rendered
+  })
   filename   = "${path.cwd}/${var.bootstrap_file}/create_indices.sh"
   depends_on = [aws_elasticsearch_domain.main]
 }

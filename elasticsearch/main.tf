@@ -67,4 +67,5 @@ POLICY
 
 resource "aws_cloudwatch_log_group" "default" {
   name = "elasticsearch/${local.name}"
+  retention_in_days = var.retention_in_days == 0 ? (terraform.workspace == "production" ? 365 : 7) : var.retention_in_days
 }
